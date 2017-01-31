@@ -1,5 +1,5 @@
 import React from 'react'
-import { config } from '../utils'
+import { config } from '../../utils'
 
 const Footer = () => <div className='footer'>
   {config.footerText}

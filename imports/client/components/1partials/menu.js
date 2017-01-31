@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Icon } from 'antd'
-import { menu } from '../utils'
+import { menu } from '../../utils'
 
 const topMenus = menu.map(item => item.key)
 const getMenus = function (menuArray, siderFold, parentPath) {

@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Icon, Popover } from 'antd'
 import Menus from './menu';
 import { Spin } from 'antd'
-import { classnames } from '../utils'
-
+import { classnames } from '../../utils'
 const SubMenu = Menu.SubMenu
 
 class Header extends Component {
@@ -18,10 +17,11 @@ class Header extends Component {
   }
 
   changeMenuPopover(event) {
-      this.props.changeMenuPopover(!this.props.siderFold)
+    this.props.changeMenuPopover(!this.props.siderFold)
   }
 
   render() {
+    console.log(this.state)
     let { user, logout, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover } = this.state;
 
     const menusProps = {

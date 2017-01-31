@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '../components/2pages/backend_dashboard/dashboard';
+import Page from '../../../components/2pages/backend_user/create';
 import { compose } from 'react-komposer';
 
 function composer(props, onData) {
@@ -7,7 +7,6 @@ function composer(props, onData) {
     items: { name: 'hello' }
   })
 }
-
-export default compose(composer)(Login);
+export default compose(composer)(Page);
 
 

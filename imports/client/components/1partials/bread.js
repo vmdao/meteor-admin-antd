@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Breadcrumb, Icon } from 'antd'
-import { menu } from '../utils'
+import { menu } from '../../utils'
 
 let pathSet = []
 const getPathSet = function (menuArray, parentPath) {

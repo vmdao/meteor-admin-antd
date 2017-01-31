@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Icon, Switch } from 'antd'
-import { config } from '../utils'
+import { config } from '../../utils'
 import Menus from './menu'
 
 class Sider extends Component {
