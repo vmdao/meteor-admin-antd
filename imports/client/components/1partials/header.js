@@ -21,7 +21,7 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.state)
+
     let { user, logout, siderFold, isNavbar, menuPopoverVisible, location, switchMenuPopover } = this.state;
 
     const menusProps = {

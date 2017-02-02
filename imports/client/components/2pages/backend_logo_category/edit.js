@@ -4,7 +4,7 @@ import { Form, Input, Tooltip, Icon, Switch, Select, Row, Col, Checkbox, Button 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-class Create extends Component {
+class Edit extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -96,11 +96,11 @@ class Create extends Component {
                     )}
                 </FormItem>
                 <FormItem {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit" size="large">Create</Button>
+                    <Button type="primary" htmlType="submit" size="large">Edit</Button>
                 </FormItem>
             </Form>
         );
     }
 }
 
-export default Form.create()(Create);
+export default Form.create()(Edit);

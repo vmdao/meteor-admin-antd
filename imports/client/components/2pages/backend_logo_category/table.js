@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react'
-import { Table, Popconfirm } from 'antd'
+import { Button, Table, Popconfirm } from 'antd'
 
 function list({
+  location,
   loading,
   dataSource,
   pagination,
@@ -11,61 +12,50 @@ function list({
 }) {
   const columns = [
     {
-      title: 'Heymen',
-      dataIndex: 'avatar',
-      key: 'avatar',
-      className: 'avatar',
-      render: (text) => <img width={24} src={text} />
+      title: 'Id',
+      dataIndex: '_id',
+      key: '_id',
+      render: (text, row, index) => {
+        return index + 1;
+      }
+    },
+    {
+      title: 'Code',
+      dataIndex: 'code',
+      key: 'code'
     }, {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name'
+      title: 'Active',
+      dataIndex: 'active',
+      key: 'active'
     }, {
-      title: '昵称',
-      dataIndex: 'nickName',
-      key: 'nickName'
-    }, {
-      title: '邮箱',
-      dataIndex: 'email',
-      key: 'email'
-    }, {
-      title: '住址',
-      dataIndex: 'address',
-      key: 'address'
-    }, {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      key: 'createTime'
-    }, {
-      title: '操作',
-      key: 'operation',
-      width: 100,
-      render: (text, record) => (
-        <p>
-          <a onClick={() => onEditItem(record)} style={{
-            marginRight: 4
-          }}>编辑</a>
-          <Popconfirm title='确定要删除吗？' onConfirm={() => onDeleteItem(record.id)}>
-            <a>删除</a>
-          </Popconfirm>
-        </p>
-      )
+      title: 'Keyword',
+      dataIndex: 'keyword',
+      key: 'keyword'
+    },
+    {
+      title: 'Action',
+      dataIndex: '',
+      key: 'x',
+      render: (text, row, index) => {
+        const path = `${location.pathname}/${row._id}`
+        return <a href={path}>Edit</a>
+      }
     }
   ]
-
   return (
     <div>
+      <Button className="editable-add-btn" type="ghost" >Add New</Button>
       <Table
         className='table'
         bordered
-        scroll={{ x: 1200 }}
+        scroll={{ x: 800 }}
         columns={columns}
         dataSource={dataSource}
         loading={loading}
         onChange={onPageChange}
         pagination={pagination}
         simple
-        rowKey={record => record.id}
+        rowKey={record => record._id}
         />
     </div>
   )

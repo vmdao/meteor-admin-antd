@@ -12,6 +12,7 @@ import UserCreate from './users/create';
 import UserList from './users/list';
 
 import LogoCategoryCreate from './logo_category/create';
+import LogoCategoryEdit from './logo_category/edit';
 import LogoCategoryList from './logo_category/list';
 
 const {login, loading, loginButtonLoading} = ModelApp.state;
@@ -23,6 +24,12 @@ const loginProps = {
 }
 
 const dataUser = ModelUser.state;
+FlowRouter.notFound = {
+    subscriptions: function () {
+    },
+    action: function () {
+    }
+};
 
 var adminRoutes = FlowRouter.group({
     prefix: '/brandgod',
@@ -74,6 +81,16 @@ adminRoutes.route('/logo_category', {
     action: function () {
         mount(LayoutBackendAdmin, {
             content: <LogoCategoryList {...dataUser} />,
+            data: dataApp
+        });
+    }
+});
+
+adminRoutes.route('/logo_category/:logoCategoryId', {
+    name: 'Logo Category Edit',
+    action: function () {
+        mount(LayoutBackendAdmin, {
+            content: <LogoCategoryEdit {...dataApp} />,
             data: dataApp
         });
     }

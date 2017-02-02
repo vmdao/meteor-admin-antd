@@ -2,14 +2,16 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
-export const LogoCategories = new Mongo.Collection('logoCategories');
+const LogoCategories = new Mongo.Collection('logoCategories');
 
 Meteor.methods({
   'logoCategories.remove'(_id) {
-  return  LogoCategories.remove({ _id });
+    return LogoCategories.remove({ _id });
   },
-  'logoCategories.create'(code, active, name, keyword) {
-    check(active, String);
+  'logoCategories.create'(data) {
+    const {active, code, name, keyword} = data;
+    console.log('data ', data)
+    check(active, Boolean);
     check(code, String);
     check(name, String);
     check(keyword, String);
@@ -19,7 +21,7 @@ Meteor.methods({
       return;
     }
 
-    return LogoCategories.insert({ code, active, name, keyword });
+    return LogoCategories.insert(active);
   },
 
   'logoCategories.update'(_id, active, name, keyword) {
@@ -40,3 +42,5 @@ if (Meteor.isServer) {
     return LogoCategories.find({ _id });
   });
 }
+
+export default LogoCategories;

@@ -7,7 +7,7 @@ import Sider from '../1partials/sider';
 import { Spin } from 'antd'
 import { classnames } from '../../utils'
 
-class App extends Component {
+class LayoutBackendAdmin extends Component {
     constructor(props) {
         super(props);
         this.state = props.data;
@@ -70,8 +70,7 @@ class App extends Component {
 
 }
 
-App.propTypes = {
-    children: PropTypes.element.isRequired,
+LayoutBackendAdmin.propTypes = {
     location: PropTypes.object,
     dispatch: PropTypes.func,
     loading: PropTypes.bool,
@@ -82,4 +81,4 @@ App.propTypes = {
     darkTheme: PropTypes.bool
 }
 
-export default App;
+export default LayoutBackendAdmin;

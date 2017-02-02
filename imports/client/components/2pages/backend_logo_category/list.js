@@ -4,40 +4,25 @@ import DataTable from './table'
 class List extends Component {
   constructor(props) {
     super(props);
+    this.location = FlowRouter.current().context;
   }
   render() {
-    console.log(this.props)
     const { loading, list, pagination, currentItem, modalVisible, modalType } = this.props;
     const userListProps = {
       dataSource: list,
       loading,
       pagination: pagination,
-      onPageChange(page) {
-        const query = location.query
-        dispatch(routerRedux.push({
-          pathname: '/users',
-          query: {
-            ...query,
-            page: page.current,
-            pageSize: page.pageSize
-          }
-        }))
-      },
-      onDeleteItem(id) {
-        dispatch({
-          type: 'users/delete',
-          payload: id
-        })
-      },
-      onEditItem(item) {
-        dispatch({
-          type: 'users/showModal',
-          payload: {
-            modalType: 'update',
-            currentItem: item
-          }
-        })
-      }
+      location,
+      // onPageChange(page) {
+      //   const query = location.query
+
+      // },
+      // onDeleteItem(id) {
+
+      // },
+      // onEditItem(item) {
+
+      // }
     }
     return (
       <div className='content-inner'>
