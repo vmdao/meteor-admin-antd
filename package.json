@@ -1,10 +1,14 @@
 {
-  "name": "votingAppReact",
+  "name": "ProjectZ",
   "private": true,
+  "author": {
+    "name": "Minh Dao Vu",
+    "email": "dao@uplevo.com",
+    "url": "http://vmdao.github.io/"
+  },
   "scripts": {
     "start": "meteor run",
-    "lint": "eslint .",
-    "pretest": "npm run lint --silent"
+    "production": "meteor run --production"
   },
   "dependencies": {
     "antd": "^2.6.4",
@@ -13,16 +17,13 @@
     "indexof": "0.0.1",
     "js-cookie": "^2.1.3",
     "meteor-node-stubs": "~0.2.0",
-    "mockjs": "^1.0.1-beta3",
     "react": "^15.3.2",
     "react-addons-pure-render-mixin": "^15.3.2",
     "react-big-calendar": "^0.11.0",
     "react-countup": "^1.3.0",
     "react-dom": "^15.3.2",
     "react-komposer": "^1.13.1",
-    "recharts": "^0.20.5",
-    "robe-ajax": "^1.0.1",
-    "watchjs": "0.0.0"
+    "recharts": "^0.20.5"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
@@ -50,6 +51,7 @@
     "settings": {
       "import/resolver": "meteor"
     },
-    "rules": {}
+    "rules": {},
+    "license": "SEE LICENSE IN LICENSE.txt"
   }
 }

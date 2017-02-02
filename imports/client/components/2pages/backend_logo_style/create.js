@@ -8,8 +8,9 @@ import ImageFiles from '../../../../api/ImageFiles';
 class Create extends Component {
     constructor(props) {
         super(props);
+        this.state = {}
         this.handleSubmit = this.handleSubmit.bind(this);
-        // this.normFile = this.handleSubmit.bind(this);
+        this.handleClickUpload = this.handleClickUpload.bind(this);
     }
 
     getBase64(img, callback) {
@@ -30,57 +31,28 @@ class Create extends Component {
         return isJPG && isLt2M;
     }
 
-    normfile(e) {
-        console.log(e)
-        if (Array.isArray(e)) {
-            return e;
+    handleClickUpload(info) {
+        if (info.file.status === 'done') {
+            this.getBase64(info.file.originFileObj, imageUrl => this.setState({ imageUrl }));
+            this.upload(info.file.originFileObj);
         }
-        console.log(123, e.file.originFileObj);
-        // Meteor.call('imageFiles.create', e.file.originFileObj, (data) => {
-        //     console.log(12345, data)
-        // })
-        let uploadInstance = ImageFiles.insert({
-            file: e.file.originFileObj,
-            streams: 'dynamic',
-            chunkSize: 'dynamic',
-            allowWebWorkers: false
-        }, false);
-        uploadInstance.on('start', function () {
-            console.log('Starting');
-        });
-
-        uploadInstance.on('end', function (error, fileObj) {
-            console.log('On end File Object: ', fileObj);
-        });
-
-        uploadInstance.on('uploaded', function (error, fileObj) {
-            console.log('uploaded: ', fileObj);
-        })
-        return e && e.fileList;
     }
-    upload(e) {
-        console.log(e)
-        const file = e.currentTarget.files[0];
-        console.log(e.currentTarget.files[0])
 
-        let uploadInstance = ImageFiles.insert({
+    upload(file) {
+        ImageFiles.insert({
             file: file,
+            onUploaded: function (error, fileObj) {
+                if (error) {
+                    alert(`Error during upload: ${error}, Upload again`);
+                } else {
+                    alert(`File ${fileObj.name} successfully uploaded.`);
+                }
+            },
             streams: 'dynamic',
-            chunkSize: 'dynamic',
-            allowWebWorkers: false
-        }, false);
-        uploadInstance.on('start', function () {
-            console.log('Starting');
+            chunkSize: 'dynamic'
         });
-
-        uploadInstance.on('end', function (error, fileObj) {
-            console.log('On end File Object: ', fileObj);
-        });
-
-        uploadInstance.on('uploaded', function (error, fileObj) {
-            console.log('uploaded: ', fileObj);
-        })
     }
+
     handleSubmit(e) {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -110,7 +82,7 @@ class Create extends Component {
                 offset: 5,
             },
         };
-        const imageUrl = null;
+        const imageUrl = this.state.imageUrl || null;
         return (
             <Form onSubmit={this.handleSubmit} >
                 <FormItem
@@ -135,10 +107,20 @@ class Create extends Component {
                     >
                     {getFieldDecorator('upload', {
                         valuePropName: 'file',
-                        //normalize: this.normfile,
                     })(
-                        <Upload name="logo" listType="picture" onChange={this.upload}>
-                            <Button type="ghost"> <Icon type="upload" /> Click to upload </Button>
+                        <Upload
+                            className="avatar-uploader"
+                            name="avatar"
+                            showUploadList={false}
+                            action="/upload.do"
+                            beforeUpload={this.beforeUpload}
+                            onChange={this.handleClickUpload}
+                            >
+                            {
+                                imageUrl ?
+                                    <img src={imageUrl} alt="" className="avatar" /> :
+                                    <Icon type="plus" className="avatar-uploader-trigger" />
+                            }
                         </Upload>
                         )}
                 </FormItem>
@@ -157,7 +139,6 @@ class Create extends Component {
                         <Input />
                         )}
                 </FormItem>
-                <input type="file" onChange={this.upload} />
                 <FormItem
                     {...formItemLayout}
                     label={(

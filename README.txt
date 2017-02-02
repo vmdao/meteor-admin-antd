@@ -1,4 +1,5 @@
-Name: Meteor React Ant Design
+Name: Project Z
 Author: vmdao
-L: MIT
+Emil: dao@uplevo.com
+LICENSE: by Uplevo
 
