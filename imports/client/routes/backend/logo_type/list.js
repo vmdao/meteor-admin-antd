@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
 import { compose } from 'react-komposer';
 
-import Page from '../../../components/2pages/backend_logo_category/edit';
-import LogoCategories from '../../../../api/LogoCategories'
+import Page from '../../../components/2pages/backend_logo_type/list';
+import LogoTypes from '../../../../api/LogoTypes'
 
 
 function getTrackerLoader(reactiveMapper) {
@@ -11,7 +11,6 @@ function getTrackerLoader(reactiveMapper) {
     let trackerCleanup = null;
     const handler = Tracker.nonreactive(() => {
       return Tracker.autorun(() => {
-        // assign the custom clean-up function.
         trackerCleanup = reactiveMapper(props, onData, env);
       });
     });
@@ -23,12 +22,9 @@ function getTrackerLoader(reactiveMapper) {
   };
 }
 
-// usage
 function reactiveMapper(props, onData) {
-  const location = FlowRouter.current();
-  const _id = location.params.id;
-  if (Meteor.subscribe('logoCategories').ready()) {
-    const data = LogoCategories.find({ _id }).fetch()[0];
+  if (Meteor.subscribe('logoTypes').ready()) {
+    const data = LogoTypes.find().fetch();
     onData(null, { list: data });
   };
 }

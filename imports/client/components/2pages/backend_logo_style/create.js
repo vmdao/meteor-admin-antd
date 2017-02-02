@@ -1,19 +1,91 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
-import { Form, Input, Tooltip, Icon, Switch, Select, Row, Col, Checkbox, Button } from 'antd';
+import { Form, Input, Tooltip, Icon, Switch, Select, Button, Upload } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
+import ImageFiles from '../../../../api/ImageFiles';
 
 class Create extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        // this.normFile = this.handleSubmit.bind(this);
+    }
+
+    getBase64(img, callback) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+    }
+
+    beforeUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        if (!isJPG) {
+            message.error('You can only upload JPG file!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+            message.error('Image must smaller than 2MB!');
+        }
+        return isJPG && isLt2M;
+    }
+
+    normfile(e) {
+        console.log(e)
+        if (Array.isArray(e)) {
+            return e;
+        }
+        console.log(123, e.file.originFileObj);
+        // Meteor.call('imageFiles.create', e.file.originFileObj, (data) => {
+        //     console.log(12345, data)
+        // })
+        let uploadInstance = ImageFiles.insert({
+            file: e.file.originFileObj,
+            streams: 'dynamic',
+            chunkSize: 'dynamic',
+            allowWebWorkers: false
+        }, false);
+        uploadInstance.on('start', function () {
+            console.log('Starting');
+        });
+
+        uploadInstance.on('end', function (error, fileObj) {
+            console.log('On end File Object: ', fileObj);
+        });
+
+        uploadInstance.on('uploaded', function (error, fileObj) {
+            console.log('uploaded: ', fileObj);
+        })
+        return e && e.fileList;
+    }
+    upload(e) {
+        console.log(e)
+        const file = e.currentTarget.files[0];
+        console.log(e.currentTarget.files[0])
+
+        let uploadInstance = ImageFiles.insert({
+            file: file,
+            streams: 'dynamic',
+            chunkSize: 'dynamic',
+            allowWebWorkers: false
+        }, false);
+        uploadInstance.on('start', function () {
+            console.log('Starting');
+        });
+
+        uploadInstance.on('end', function (error, fileObj) {
+            console.log('On end File Object: ', fileObj);
+        });
+
+        uploadInstance.on('uploaded', function (error, fileObj) {
+            console.log('uploaded: ', fileObj);
+        })
     }
     handleSubmit(e) {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (err) return;
-            Meteor.call('logoCategories.create', values, (err, res) => {
+            Meteor.call('logoStyles.create', values, (err, res) => {
                 if (err) {
                     this.setState({
                         errors: [].concat(err),
@@ -38,9 +110,9 @@ class Create extends Component {
                 offset: 5,
             },
         };
-
+        const imageUrl = null;
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmit} >
                 <FormItem
                     {...formItemLayout}
                     label={(
@@ -59,6 +131,19 @@ class Create extends Component {
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
+                    label="Feature"
+                    >
+                    {getFieldDecorator('upload', {
+                        valuePropName: 'file',
+                        //normalize: this.normfile,
+                    })(
+                        <Upload name="logo" listType="picture" onChange={this.upload}>
+                            <Button type="ghost"> <Icon type="upload" /> Click to upload </Button>
+                        </Upload>
+                        )}
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
                     label={(
                         <span>
                             Name
@@ -72,6 +157,7 @@ class Create extends Component {
                         <Input />
                         )}
                 </FormItem>
+                <input type="file" onChange={this.upload} />
                 <FormItem
                     {...formItemLayout}
                     label={(
@@ -98,7 +184,7 @@ class Create extends Component {
                 <FormItem {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit" size="large">Create</Button>
                 </FormItem>
-            </Form>
+            </Form >
         );
     }
 }

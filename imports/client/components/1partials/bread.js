@@ -4,7 +4,7 @@ import { menu } from '../../utils'
 
 let pathSet = []
 const getPathSet = function (menuArray, parentPath) {
-  parentPath = parentPath || '/'
+  parentPath = parentPath || '/';
   menuArray.map(item => {
     pathSet[(parentPath + item.key).replace(/\//g, '-').hyphenToHump()] = {
       path: parentPath + item.key,
@@ -30,8 +30,18 @@ function Bread({ location }) {
   })
   const breads = pathNames.map((item, key) => {
     if (!(item in pathSet)) {
-      item = 'Dashboard'
+      item = 'Edit'
     }
+    if (!pathSet[item]) { // when is edit
+      const pathNameParentEdit = pathNames[key - 1];
+      const pathSetParentEdit = pathSet[pathNameParentEdit];
+      pathSet[item] = {
+        path: pathNameParentEdit,
+        name: pathSetParentEdit.name + ' Edit',
+        icon: pathSetParentEdit.icon || '',
+        clickable: pathSetParentEdit.clickable === undefined
+      }
+    };
     return (
       <Breadcrumb.Item key={key} {...((pathNames.length - 1 === key) || !pathSet[item].clickable) ? '' : { href: '#' + pathSet[item].path }}>
         {pathSet[item].icon
@@ -45,7 +55,7 @@ function Bread({ location }) {
   return (
     <div className='bread'>
       <Breadcrumb>
-        <Breadcrumb.Item href='#/'><Icon type='home' />
+        <Breadcrumb.Item href='/brandgod'><Icon type='home' />
           <span>Home</span>
         </Breadcrumb.Item>
         {breads}

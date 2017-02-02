@@ -2,43 +2,43 @@ import React from 'react';
 import { mount } from 'react-mounter';
 
 import LayoutBackendAdmin from '../../../components/0layouts/layout_backend_admin';
-import LogoCategoryCreate from './create';
-import LogoCategoryEdit from './edit';
-import LogoCategoryList from './list';
+import CreateContainer from './create';
+import EditContainer from './edit';
+import ListContainer from './list';
 
-export default function LogoCategoryRouter(data) {
+export default function LogoStyleRouter(data) {
     const {prefixParent, prefix, dataLayout, dataContent} = data;
 
     let routes = FlowRouter.group({
         prefix: `/${prefixParent}/${prefix}`,
-        name: 'Logo Category',
+        name: 'Logo Style',
     });
 
     routes.route('/', {
-        name: 'Logo Category List',
+        name: 'Logo Style List',
         action: function () {
             mount(LayoutBackendAdmin, {
-                content: <LogoCategoryList {...dataContent} />,
+                content: <ListContainer {...dataContent} />,
                 data: dataLayout
             });
         }
     });
 
     routes.route('/create', {
-        name: 'Logo Category Create',
+        name: 'Logo Style Create',
         action: function () {
             mount(LayoutBackendAdmin, {
-                content: <LogoCategoryCreate {...dataLayout} />,
+                content: <CreateContainer {...dataLayout} />,
                 data: dataLayout
             });
         }
     });
 
     routes.route('/edit/:id', {
-        name: 'Logo Category Edit',
+        name: 'Logo Style Edit',
         action: function () {
             mount(LayoutBackendAdmin, {
-                content: <LogoCategoryEdit {...dataLayout} />,
+                content: <EditContainer {...dataLayout} />,
                 data: dataLayout
             });
         }

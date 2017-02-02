@@ -10,7 +10,6 @@ Meteor.methods({
   },
   'logoCategories.create'(data) {
     const {active, code, name, keyword} = data;
-    console.log('data ', data)
     check(active, Boolean);
     check(code, String);
     check(name, String);
@@ -20,12 +19,12 @@ Meteor.methods({
       throw new Meteor.Error(403, `'logoCategories' should not be empty!`);
       return;
     }
-
-    return LogoCategories.insert(active);
+    return LogoCategories.insert(data);
   },
 
-  'logoCategories.update'(_id, active, name, keyword) {
-    check(active, String);
+  'logoCategories.update'(data) {
+    let {_id, active, name, keyword} = data;
+    check(active, Boolean);
     check(name, String);
     check(keyword, String);
     return LogoCategories.update({ _id }, { $set: { active, name, keyword } });
@@ -36,10 +35,6 @@ if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('logoCategories', () => {
     return LogoCategories.find();
-  });
-
-  Meteor.publish('logoCategory', (_id) => {
-    return LogoCategories.find({ _id });
   });
 }
 

@@ -1,13 +1,11 @@
 import React from 'react';
-import Login from '../components/2pages/backend_auth/login';
+import Page from '../../../components/2pages/backend_logo_style/create';
 import { compose } from 'react-komposer';
 
 function composer(props, onData) {
   onData(null, {
-    items:{name: 'hello'}
   })
 }
-
-export default compose(composer)(Login);
+export default compose(composer)(Page);
 
 

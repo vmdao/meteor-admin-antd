@@ -3,6 +3,6 @@ module.exports = {
   prefix: 'antdAdmin',
   footerText: 'Brandding',
   logoSrc: 'https://t.alipayobjects.com/images/rmsweb/T1B9hfXcdvXXXXXXXX.svg',
-  logoText: 'Antd Admin',
+  logoText: 'Brandgos',
   needLogin: true
 }

@@ -1,29 +1,22 @@
-import { FlowRouter } from 'meteor/kadira:flow-router';
-import { mount } from 'react-mounter';
 import React from 'react';
+import { mount } from 'react-mounter';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
-import LayoutDefault from '../../components/0layouts/layout_default';
-import LayoutBackendAdmin from '../../components/0layouts/layout_backend_admin';
 import ModelApp from '../../models/app';
 import ModelUser from '../../models/users';
 
-import Login from '../../routes/login';
-import UserCreate from './users/create';
-import UserList from './users/list';
-
-import LogoCategoryCreate from './logo_category/create';
-import LogoCategoryEdit from './logo_category/edit';
-import LogoCategoryList from './logo_category/list';
-
-const {login, loading, loginButtonLoading} = ModelApp.state;
-const dataApp = ModelApp.state;
-const loginProps = {
-    loading,
-    loginButtonLoading,
-    children: Login,
-}
+import AuthRouter from './auth/router';
+import TagRouter from './logo_tag/router';
+import TypeRouter from './logo_type/router';
+import StyleRouter from './logo_style/router';
+import CategoryRouter from './logo_category/router';
+import SuggestOrderRouter from './logo_suggestorder/router';
 
 const dataUser = ModelUser.state;
+const dataApp = ModelApp.state;
+const {login, loading, loginButtonLoading} = dataApp;
+const loginProps = { loading, loginButtonLoading }
+
 FlowRouter.notFound = {
     subscriptions: function () {
     },
@@ -31,72 +24,22 @@ FlowRouter.notFound = {
     }
 };
 
-var adminRoutes = FlowRouter.group({
-    prefix: '/brandgod',
-    name: 'admin',
-    triggersEnter: [function (context, redirect) {
-        console.log('running group triggers');
-    }]
+let routes = FlowRouter.group({
+    prefix: '/brandgod/upload',
+    name: 'Logo Tag',
 });
 
-adminRoutes.route('/login', {
-    name: 'login',
-    action: function () {
-        mount(LayoutDefault, { content: <Login {...loginProps} /> });
+routes.route('/images', {
+    name: 'Logo Tag List',
+    action: function (params, queryParams) {
+        console.log('params', params, queryParams)
     }
 });
 
-adminRoutes.route('/users/create', {
-    name: 'User Create',
-    action: function () {
-        mount(LayoutBackendAdmin, {
-            content: <UserCreate {...dataApp} />,
-            data: dataApp
-        });
-    }
-});
-
-adminRoutes.route('/users', {
-    name: 'Users List',
-    action: function () {
-        mount(LayoutBackendAdmin, {
-            content: <UserList {...dataUser} />,
-            data: dataApp
-        });
-    }
-});
-
-adminRoutes.route('/logo_category/create', {
-    name: 'Logo Category Create',
-    action: function () {
-        mount(LayoutBackendAdmin, {
-            content: <LogoCategoryCreate {...dataApp} />,
-            data: dataApp
-        });
-    }
-});
-
-adminRoutes.route('/logo_category', {
-    name: 'Logo Category List',
-    action: function () {
-        mount(LayoutBackendAdmin, {
-            content: <LogoCategoryList {...dataUser} />,
-            data: dataApp
-        });
-    }
-});
-
-adminRoutes.route('/logo_category/:logoCategoryId', {
-    name: 'Logo Category Edit',
-    action: function () {
-        mount(LayoutBackendAdmin, {
-            content: <LogoCategoryEdit {...dataApp} />,
-            data: dataApp
-        });
-    }
-});
-
-
-
-
+new AuthRouter({ prefixParent: 'brandgod', prefix: '', dataLayout: dataApp, dataContent: loginProps });
+new TagRouter({ prefixParent: 'brandgod/app', prefix: 'logo_tag', dataLayout: dataApp, dataContent: dataUser });
+new TypeRouter({ prefixParent: 'brandgod/app', prefix: 'logo_type', dataLayout: dataApp, dataContent: dataUser });
+new StyleRouter({ prefixParent: 'brandgod/app', prefix: 'logo_style', dataLayout: dataApp, dataContent: dataUser });
+new CategoryRouter({ prefixParent: 'brandgod/app', prefix: 'logo_category', dataLayout: dataApp, dataContent: dataUser });
+new SuggestOrderRouter({ prefixParent: 'brandgod/app', prefix: 'logo_suggestorder', dataLayout: dataApp, dataContent: dataUser });
 

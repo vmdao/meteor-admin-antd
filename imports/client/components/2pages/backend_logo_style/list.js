@@ -27,6 +27,4 @@ List.propTypes = {
   location: PropTypes.object,
   dispatch: PropTypes.func
 }
-
-
 export default List;

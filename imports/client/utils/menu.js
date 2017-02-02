@@ -1,53 +1,90 @@
 module.exports = [
   {
-    key: 'dashboard',
+    key: 'brandgod',
     name: 'Dashboard',
     icon: 'laptop'
   },
   {
-    key: 'users',
+    key: 'brandgod/users',
     name: 'User',
-    icon: 'user'
+    icon: 'user',
   },
   {
-    key: 'ui',
-    name: 'Product',
+    key: 'brandgod/app',
+    name: 'App',
     icon: 'camera-o',
     clickable: false,
     child: [
       {
-        key: 'ico',
-        name: 'Product Item'
-      },
-      {
-        key: 'search',
-        name: 'Product List'
-      }
-    ]
-  },
-  {
-    key: 'navigation',
-    name: 'Payment',
-    icon: 'setting',
-    child: [
-      {
-        key: 'navigation1',
-        name: 'Payment Local'
-      },
-      {
-        key: 'navigation2',
-        name: 'Payment Global',
+        key: 'logo_category',
+        name: 'Category',
         child: [
           {
-            key: 'navigation21',
-            name: 'Setting System'
+            key: '',
+            name: 'Category List'
           },
           {
-            key: 'navigation22',
-            name: 'Setting Local'
+            key: 'create',
+            name: 'Category Create'
           }
         ]
-      }
+      },
+      {
+        key: 'logo_style',
+        name: 'Styles',
+        child: [
+          {
+            key: '',
+            name: 'Style List'
+          },
+          {
+            key: 'create',
+            name: 'Style Create'
+          }
+        ]
+      },
+      {
+        key: 'logo_suggestorder',
+        name: 'Suggest Order',
+        child: [
+          {
+            key: '',
+            name: 'Suggest List'
+          },
+          {
+            key: 'create',
+            name: 'Suggest Create'
+          }
+        ]
+      },
+      {
+        key: 'logo_tag',
+        name: 'Tag Order',
+        child: [
+          {
+            key: '',
+            name: 'Tag List'
+          },
+          {
+            key: 'create',
+            name: 'Tag Create'
+          }
+        ]
+      },
+       {
+        key: 'logo_type',
+        name: 'Type',
+        child: [
+          {
+            key: '',
+            name: 'Type List'
+          },
+          {
+            key: 'create',
+            name: 'Type Create'
+          }
+        ]
+      },
     ]
   }
 ]
