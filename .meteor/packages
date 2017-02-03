@@ -33,3 +33,7 @@ session@1.1.7
 less@2.7.8
 kadira:flow-router
 msavin:mongol
+ostrio:meteor-root
+cfs:standard-packages
+cfs:gridfs
+cfs:s3

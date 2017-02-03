@@ -17,12 +17,13 @@ const dataApp = ModelApp.state;
 const {login, loading, loginButtonLoading} = dataApp;
 const loginProps = { loading, loginButtonLoading }
 
-FlowRouter.notFound = {
-    subscriptions: function () {
-    },
-    action: function () {
-    }
-};
+// FlowRouter.notFound = {
+//     subscriptions: function () {
+//     },
+//     action: function () {
+//         console.log("404 Not found")
+//     }
+// };
 
 let routes = FlowRouter.group({
     prefix: '/brandgod/upload',

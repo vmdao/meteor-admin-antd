@@ -39,18 +39,27 @@ class Create extends Component {
     }
 
     upload(file) {
-        ImageFiles.insert({
-            file: file,
-            onUploaded: function (error, fileObj) {
-                if (error) {
-                    alert(`Error during upload: ${error}, Upload again`);
-                } else {
-                    alert(`File ${fileObj.name} successfully uploaded.`);
-                }
-            },
-            streams: 'dynamic',
-            chunkSize: 'dynamic'
-        });
+        ImageFiles.insert(file, function (error, fileObj) {
+            if (error) {
+                console.log("Upload failed... please try again.");
+            } else {
+                console.log('Upload succeeded!', fileObj);
+                console.log(ImageFiles.find({ _id: "Rigyf36k4KAXSTjja" }).fetch());
+            }
+        })
+        // ImageFiles.insert({
+        //     file: file,
+        //     streams: 'dynamic',
+        //     chunkSize: 'dynamic',
+        //     onUploaded: function (error, fileObj) {
+        //         console.log(fileObj)
+        //         if (error) {
+        //             alert(`Error during upload: ${error}, Upload again`);
+        //         } else {
+        //             alert(`File ${fileObj.name} successfully uploaded.`);
+        //         }
+        //     },
+        // });
     }
 
     handleSubmit(e) {
@@ -94,7 +103,7 @@ class Create extends Component {
                         </span>
                     )}
                     hasFeedback
-                    >
+                >
                     {getFieldDecorator('code', {
                         rules: [{ required: true, message: 'Please input your code!' }],
                     })(
@@ -104,7 +113,7 @@ class Create extends Component {
                 <FormItem
                     {...formItemLayout}
                     label="Feature"
-                    >
+                >
                     {getFieldDecorator('upload', {
                         valuePropName: 'file',
                     })(
@@ -115,7 +124,7 @@ class Create extends Component {
                             action="/upload.do"
                             beforeUpload={this.beforeUpload}
                             onChange={this.handleClickUpload}
-                            >
+                        >
                             {
                                 imageUrl ?
                                     <img src={imageUrl} alt="" className="avatar" /> :
@@ -133,7 +142,7 @@ class Create extends Component {
                         </span>
                     )}
                     hasFeedback
-                    >
+                >
                     {getFieldDecorator('name', {
                     })(
                         <Input />
@@ -148,7 +157,7 @@ class Create extends Component {
                         </span>
                     )}
                     hasFeedback
-                    >
+                >
                     {getFieldDecorator('keyword', {
                     })(
                         <Input />
@@ -157,7 +166,7 @@ class Create extends Component {
                 <FormItem
                     {...formItemLayout}
                     label="Active"
-                    >
+                >
                     {getFieldDecorator('active', { initialValue: false })(
                         <Switch checkedChildren='On' unCheckedChildren='Off' />
                     )}

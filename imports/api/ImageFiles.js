@@ -1,17 +1,44 @@
-
-import { FilesCollection } from 'meteor/ostrio:files';
-let ImageFiles = new FilesCollection({
-  collectionName: 'Images',
-  onBeforeUpload: function (file) {
-    if (file.size <= 10485760 && /png|jpg|jpeg/i.test(file.extension)) {
-      return true;
-    } else {
-      return 'Please upload image, with size equal or less than 10MB';
-    }
-  }
-});
 if (Meteor.isServer) {
-  ImageFiles.allowClient();
+  var imageStore = new FS.Store.S3("images", {
+    /* REQUIRED */
+    accessKeyId: Meteor.settings.aws.AWSAccessKeyId,
+    secretAccessKey: Meteor.settings.aws.AWSSecretAccessKey,
+    bucket: Meteor.settings.aws.AWSBucket
+  });
+
+  Images = new FS.Collection("Images", {
+    stores: [imageStore],
+    filter: {
+      allow: {
+        contentTypes: ['image/*']
+      }
+    }
+  });
 }
 
-export default ImageFiles;
+// On the client just create a generic FS Store as don't have
+// access (or want access) to S3 settings on client
+if (Meteor.isClient) {
+  var imageStore = new FS.Store.S3("images");
+  Images = new FS.Collection("Images", {
+    stores: [imageStore],
+    filter: {
+      allow: {
+        contentTypes: ['image/*']
+      },
+      onInvalid: function (message) {
+        toastr.error(message);
+      }
+    }
+  });
+}
+
+// Allow rules
+Images.allow({
+  insert: function () { return true; },
+  update: function () { return true; },
+  download: function () { return true; }
+});
+
+console.log(1212121, Images.find().fetch())
+export default Images;
